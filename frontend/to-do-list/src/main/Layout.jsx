@@ -3,8 +3,13 @@ import './Layout.css'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as yup from 'yup'
 import Axios from 'axios'
+import { toast, ToastContainer } from 'react-toastify'
+import { useState, useEffect } from 'react'
 
 function Layout() {
+
+    const [taskName, setTaskName] = useState('')
+    const [taskContent, setTaskContent] = useState('')
 
     const handleSubmit = (values) => {
         Axios.post('http://localhost:3001/to-do-list', {
@@ -27,6 +32,7 @@ function Layout() {
 
     return (
         <div>
+            <ToastContainer autoClose={3000} position={toast.POSITION.BOTTOM_LEFT} />
             <h1>Gerenciador de tarefas</h1>
             <Formik initialValues={{}} onSubmit={handleSubmit} validationSchema={validation}>
                 <Form>
