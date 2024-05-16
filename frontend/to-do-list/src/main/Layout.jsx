@@ -1,54 +1,53 @@
 import React from 'react'
 import './Layout.css'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
-import * as yup from 'yup'
-import Axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify'
 import { useState, useEffect } from 'react'
+import styled from 'styled-components'
+import axios from 'axios'
+
+import Form from '../components/Form'
+import Grid from '../components/Grid'
+
+const Container = styled.div `
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+`;
+
+const H1 = styled.h1`
+    font-size: 36px;
+    font-weight: 500;
+`;
 
 function Layout() {
+    const [tasks, setTasks] = useState([])
+    const [onEdit, setOnEdit] = useState(null)
 
-    const [taskName, setTaskName] = useState('')
-    const [taskContent, setTaskContent] = useState('')
-
-    const handleSubmit = (values) => {
-        Axios.post('http://localhost:3001/to-do-list', {
-            name: values.taskName,
-            content: values.taskContent
-        }).then((res) => {
-            console.log(res)
-        })
+    const getTasks = async () => {
+        try {
+            const res = await axios.get('http://localhost:3001')
+            setTasks(res.data.sort((a, b) => (a.name > b.name ? 1 : -1)))
+        } catch(error) {
+            console.log(error)
+        }
     }
 
-    const validation = yup.object().shape({
-        taskName: yup
-        .string()
-        .required("Digite o nome da tarefa"),
-
-        taskContent: yup
-        .string()
-        .required("Digite uma tarefa")
-    })
+    useEffect(() => {
+        getTasks();
+    }, [setTasks])
 
     return (
         <div>
-            <ToastContainer autoClose={3000} position={toast.POSITION.BOTTOM_LEFT} />
-            <h1>Gerenciador de tarefas</h1>
-            <Formik initialValues={{}} onSubmit={handleSubmit} validationSchema={validation}>
-                <Form>
-                    <div className='login-form-group'>
-                        <Field name='taskName' type='text' className='form-field' placeholder='nome da tarefa' />
-                        <ErrorMessage component='span' name='taskName' className='form-error' />
-                    </div>
-
-                    <div className='login-form-group'>
-                        <Field name='taskContent' type='text' className='form-field' placeholder='tarefa' />
-                        <ErrorMessage component='span' name='taskContent' className='form-error' />
-                    </div>
-
-                    <button className='button' type='submit'>Adicionar</button>
-                </Form>
-            </Formik>
+            <Container>
+                {/* <ToastContainer autoClose={3000} position={toast.POSITION.BOTTOM_LEFT} /> */}
+                <H1>Gerenciador de tarefas</H1>
+                <Form />
+                <Grid tasks={tasks}/>
+            </Container>
         </div>
     )
 }

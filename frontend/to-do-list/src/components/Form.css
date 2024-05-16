@@ -1,0 +1,40 @@
+* {
+    font-family: poppins;
+}
+
+form {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0px 0px 5px #ccc;
+    border-radius: 5px;
+}
+
+.login-form-group {
+    display: flex;
+    flex-direction: column;
+} 
+
+.form-field {
+    width: 120px;
+    padding: 0px 7px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    height: 35px;
+    font-size: 14px;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    background-color: #9554ff;
+    color: white;
+    height: 37px;
+}
