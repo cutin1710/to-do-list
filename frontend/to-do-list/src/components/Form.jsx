@@ -2,23 +2,30 @@ import React, { useRef } from 'react'
 import './Form.css'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as yup from 'yup'
-import Axios from 'axios'
+import axios from 'axios'
 import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
-// const Form = ({ onEdit }) => {
-//     const ref = useRef()
-// }
 
-export default () => {
+
+export default ({ onEdit }) => {
+
+    // useEffect(() => {
+    //     if(onEdit) {
+    //         const task = ref.current
+
+    //         task.name.value = onEdit.name
+    //         task.task.value = onEdit.task
+    //     }
+    // }, [onEdit])
 
     const [name, setName] = useState('')
     const [task, setTask] = useState('')
 
-    const handleSubmit = (values) => {
-        Axios.post('http://localhost:3001/to-do-list', {
+    const handleSubmit = async (values) => {
+        axios.post('http://localhost:3001/to-do-list', {
             name: values.name,
-            content: values.task
+            task: values.task
         }).then((res) => {
             console.log(res)
         })

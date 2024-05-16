@@ -30,7 +30,8 @@ function Layout() {
     const getTasks = async () => {
         try {
             const res = await axios.get('http://localhost:3001')
-            setTasks(res.data.sort((a, b) => (a.name > b.name ? 1 : -1)))
+            setTasks(res.data)
+            console.log(res.data)
         } catch(error) {
             console.log(error)
         }
@@ -45,8 +46,8 @@ function Layout() {
             <Container>
                 {/* <ToastContainer autoClose={3000} position={toast.POSITION.BOTTOM_LEFT} /> */}
                 <H1>Gerenciador de tarefas</H1>
-                <Form />
-                <Grid tasks={tasks}/>
+                <Form onEdit={onEdit} setOnEdit={setOnEdit} getTasks={getTasks}/>
+                <Grid tasks={tasks} setTasks={setTasks} setOnEdit={setOnEdit}/>
             </Container>
         </div>
     )
